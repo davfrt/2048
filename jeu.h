@@ -1,16 +1,19 @@
 #ifndef __JEU_H
 #define __JEU_H
 
-#include <random>
+
+//#include "usefull.h"
+//#include <random>
+#include <ctime>
 
 class Jeu
 {
-private:
+protected:
 	unsigned short  matrix[4][4];	//matrice de jeu 2048
 	int score;						//le score de la partie
 	char move;						//le dernier coup enregistré (z,q,s,d)
 	bool lose;						//savoir si la partie est terminée
-	unsigned short value;					//valeur empirique de la position permettant de l'évaluer
+	short value;			//valeur empirique de la position permettant de l'évaluer
 
 	char Taille(char i0, char j0) const;
 	void Print_Carac(char maxlen, char i0, char j0) const;
@@ -18,54 +21,28 @@ private:
 
 public:
 
-	Jeu()
-	{
-		for (char i = 0; i < 4; ++i)
-		{
-			for (char j = 0; j < 4; ++j) { matrix[i][j] = (unsigned short)0; }
-		}
-		char rand1 = rand() % 16, rand2;
-		do { rand2 = rand() % 16; } while (rand1 == rand2);
-		matrix[rand1/4][rand1%4] = (unsigned short)(2 * (rand() % 2 + 1));
-		matrix[rand2/4][rand2%4] = (unsigned short)(2 * (rand() % 2 + 1));
-		score = 0;
-		move ='a';
-		lose = false;
-		value = 0;
-	}
+	Jeu();
 
-	Jeu(unsigned short (* tab)[4], int socre0 = 0, char move0 = 'a', bool lose0 = false, short value0 = 0)
-	{
-		for (char i = 0; i < 4; ++i)
-		{
-			for (char j = 0; j < 4; ++j) { matrix[i][j] = tab[i][j]; }
-		}
-		score = socre0;
-		move = move0;
-		lose = lose0;
-		value = value0;
-	}
+	Jeu(unsigned short(*tab)[4], int score0, char move0, bool lose0, short value0);
 
-	Jeu(Jeu const& g):score(g.score), move(g.move), lose(g.lose), value(g.value)
-	{
-		for (char i = 0; i < 4; ++i)
-		{
-			for (char j = 0; j < 4; ++j) { matrix[i][j] = g.matrix[i][j]; }
-		}
-	}
-
+	Jeu(Jeu& const g); //:score(g.score), move(g.move), lose(g.lose), value(g.value);
 
 	void Reinit_Jeu();
 	void Next_Move();
 
-	unsigned short Get_Matrix_Value(char i, char j) const { return matrix[i][j]; }
+	unsigned short Get_Matrix_Value(unsigned char i0, unsigned char j0) const { return matrix[i0][j0]; }
 	int Get_Score() const { return score; }
 	char Get_Move() const { return move; }
 	bool Get_Lose() const { return lose; }
-	unsigned short Get_Value() const { return value; }
+	short Get_Value() const { return value; }
 	
 	void Game();
 	void Print_Grid() const;
+
+	void MovementADroite();
+	void MovementAGauche();
+	void MovementEnBas();
+	void MovementEnHaut();
 
 
 };

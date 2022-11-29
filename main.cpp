@@ -28,15 +28,16 @@ using namespace std;
 //}
 
 
-void main()
+int main()
 {
 	//test1();
 	//pour utiliser le random
 	srand(time(NULL));
 	//
-
+	//cout << "yo0\n";
 	Jeu g;
 	g.Game();
 	
+	return 0;
 }
 
